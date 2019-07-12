@@ -1,3 +1,3 @@
-module github.com/sinnykumari/fedora-coreos-stream-generator
+module github.com/coreos/fedora-coreos-stream-generator
 
 go 1.12
