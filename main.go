@@ -229,7 +229,7 @@ func run() error {
 		Stream:        release.Stream,
 		Metadata:      Metadata{LastModified: time.Now().UTC().Format(time.RFC3339)},
 		Architectures: streamArch,
-		Updates:       StreamUpdates{Release: release.Release},
+		// Updates:       StreamUpdates{Release: release.Release},
 	}
 
 	if overrideFilename != "" {

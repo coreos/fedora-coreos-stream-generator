@@ -5,7 +5,7 @@ type StreamMetadata struct {
 	Stream        string                 `json:"stream"`
 	Metadata      Metadata               `json:"metadata"`
 	Architectures map[string]*StreamArch `json:"architectures"`
-	Updates       StreamUpdates          `json:"updates"`
+	// Updates       StreamUpdates          `json:"updates"`
 }
 
 // StreamArch release details for x86_64 architetcure
@@ -60,6 +60,6 @@ type StreamAwsAMI struct {
 }
 
 // StreamUpdates contains release version
-type StreamUpdates struct {
-	Release string `json:"release"`
-}
+// type StreamUpdates struct {
+// 	Release string `json:"release"`
+// }
