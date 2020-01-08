@@ -15,6 +15,7 @@ type ReleaseArch struct {
 
 // ReleaseMedia contains details about various images we ship
 type ReleaseMedia struct {
+	Aliyun       *ReleaseTargetPlatform `json:"aliyun"`
 	Aws          *ReleaseAws            `json:"aws"`
 	Azure        *ReleaseAzure          `json:"azure"`
 	Digitalocean *ReleaseDigitalOcean   `json:"digitalocean"`
