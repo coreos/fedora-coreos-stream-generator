@@ -16,6 +16,7 @@ type StreamArch struct {
 
 // StreamArtifacts contains shipped artifacts list
 type StreamArtifacts struct {
+	Aliyun       *StreamMediaDetails `json:"aliyun,omitempty"`
 	Aws          *StreamMediaDetails `json:"aws,omitempty"`
 	Azure        *StreamMediaDetails `json:"azure,omitempty"`
 	Digitalocean *StreamMediaDetails `json:"digitalocean,omitempty"`

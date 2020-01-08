@@ -55,6 +55,14 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	}
 
+	if releaseArch.Media.Aliyun != nil {
+		aliyun := StreamMediaDetails{
+			Release: release.Release,
+			Formats: releaseArch.Media.Aliyun.Artifacts,
+		}
+		artifacts.Aliyun = &aliyun
+	}
+
 	if releaseArch.Media.Gcp != nil {
 		gcp := StreamMediaDetails{
 			Release: release.Release,
