@@ -20,6 +20,7 @@ type StreamArtifacts struct {
 	Aws          *StreamMediaDetails `json:"aws,omitempty"`
 	Azure        *StreamMediaDetails `json:"azure,omitempty"`
 	Digitalocean *StreamMediaDetails `json:"digitalocean,omitempty"`
+	Exoscale     *StreamMediaDetails `json:"exoscale,omitempty"`
 	Gcp          *StreamMediaDetails `json:"gcp,omitempty"`
 	Metal        *StreamMediaDetails `json:"metal,omitempty"`
 	Openstack    *StreamMediaDetails `json:"openstack,omitempty"`
