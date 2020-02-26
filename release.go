@@ -19,6 +19,7 @@ type ReleaseMedia struct {
 	Aws          *ReleaseAws            `json:"aws"`
 	Azure        *ReleaseAzure          `json:"azure"`
 	Digitalocean *ReleaseDigitalOcean   `json:"digitalocean"`
+	Exoscale     *ReleaseTargetPlatform `json:"exoscale"`
 	Gcp          *ReleaseGcp            `json:"gcp"`
 	Metal        *ReleaseTargetPlatform `json:"metal"`
 	Openstack    *ReleaseTargetPlatform `json:"openstack"`
