@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-var errReleaseIndexMissing = errors.New("Please specify release index url")
+var errReleaseIndexMissing = errors.New("Please specify release index url or release override")
 
 func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 	artifacts := StreamArtifacts{}
@@ -185,8 +185,9 @@ func overrideData(original, override interface{}) interface{} {
 
 func run() error {
 	var releasesURL string
-
 	flag.StringVar(&releasesURL, "releases", "", "Release index location for the required stream")
+	var overrideReleasePath string
+	flag.StringVar(&overrideReleasePath, "release", "", "Override release metadata location")
 	var overrideFilename string
 	flag.StringVar(&overrideFilename, "override", "", "Override file location for the required stream")
 	var outputFile string
@@ -196,13 +197,19 @@ func run() error {
 
 	flag.Parse()
 
-	if releasesURL == "" {
+	var releasePath string
+	if releasesURL == "" && overrideReleasePath == "" {
 		return errReleaseIndexMissing
-	}
-
-	releasePath, err := ReleaseURL(releasesURL)
-	if err != nil {
-		return fmt.Errorf("Error with Release Index: %v", err)
+	} else if releasesURL != "" && overrideReleasePath != "" {
+		return fmt.Errorf("Can't specify both -releases and -release")
+	} else if overrideReleasePath != "" {
+		releasePath = overrideReleasePath
+	} else {
+		var err error
+		releasePath, err = ReleaseURL(releasesURL)
+		if err != nil {
+			return fmt.Errorf("Error with Release Index: %v", err)
+		}
 	}
 
 	parsedURL, err := url.Parse(releasePath)
