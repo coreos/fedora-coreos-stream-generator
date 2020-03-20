@@ -213,13 +213,13 @@ func run() error {
 	var decoder *json.Decoder
 	if parsedURL.Scheme == "" {
 		// It is most likely a local file.
-		releasesMetadataFile, err := os.Open(releasePath)
+		releaseMetadataFile, err := os.Open(releasePath)
 		if err != nil {
 			return fmt.Errorf("Error opening file: %v", err)
 		}
 
-		defer releasesMetadataFile.Close()
-		decoder = json.NewDecoder(releasesMetadataFile)
+		defer releaseMetadataFile.Close()
+		decoder = json.NewDecoder(releaseMetadataFile)
 	} else {
 		resp, err := http.Get(releasePath)
 		if err != nil {
