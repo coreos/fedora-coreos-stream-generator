@@ -93,7 +93,6 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 		}
 		artifacts.Digitalocean = &digitalOcean
 
-		artifacts.Digitalocean = &digitalOcean
 		digitalOceanImage := StreamCloudImage{Image: "fedora-coreos-stable"}
 		cloudImages.Digitalocean = &digitalOceanImage
 	}
