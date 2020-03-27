@@ -93,8 +93,11 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 		}
 		artifacts.Digitalocean = &digitalOcean
 
+		/* We're producing artifacts but they're not yet available
+		   in DigitalOcean as distribution images.
 		digitalOceanImage := StreamCloudImage{Image: fmt.Sprintf("fedora-coreos-%s", release.Stream)}
 		cloudImages.Digitalocean = &digitalOceanImage
+		*/
 	}
 
 	if releaseArch.Media.Packet != nil {
