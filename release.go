@@ -27,6 +27,7 @@ type ReleaseMedia struct {
 	Qemu         *ReleaseTargetPlatform `json:"qemu"`
 	Virtualbox   *ReleaseTargetPlatform `json:"virtualbox"`
 	Vmware       *ReleaseTargetPlatform `json:"vmware"`
+	Vultr        *ReleaseTargetPlatform `json:"vultr"`
 }
 
 // ReleaseAws contains AWS image information

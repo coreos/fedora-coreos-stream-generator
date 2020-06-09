@@ -28,6 +28,7 @@ type StreamArtifacts struct {
 	Qemu         *StreamMediaDetails `json:"qemu,omitempty"`
 	Virtualbox   *StreamMediaDetails `json:"virtualbox,omitempty"`
 	Vmware       *StreamMediaDetails `json:"vmware,omitempty"`
+	Vultr        *StreamMediaDetails `json:"vultr,omitempty"`
 }
 
 // StreamMediaDetails contains image artifact and release detail
