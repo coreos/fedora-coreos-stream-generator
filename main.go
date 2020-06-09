@@ -71,6 +71,14 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 		artifacts.Exoscale = &exoscale
 	}
 
+	if releaseArch.Media.Vultr != nil {
+		vultr := StreamMediaDetails{
+			Release: release.Release,
+			Formats: releaseArch.Media.Vultr.Artifacts,
+		}
+		artifacts.Vultr = &vultr
+	}
+
 	if releaseArch.Media.Gcp != nil {
 		gcp := StreamMediaDetails{
 			Release: release.Release,
