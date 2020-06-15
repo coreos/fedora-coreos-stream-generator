@@ -41,7 +41,7 @@ type StreamMediaDetails struct {
 type StreamImages struct {
 	Aws          *StreamAwsImage   `json:"aws,omitempty"`
 	Azure        *StreamCloudImage `json:"azure,omitempty"`
-	Gcp          *StreamCloudImage `json:"gcp,omitempty"`
+	Gcp          *StreamGcpImage   `json:"gcp,omitempty"`
 	Digitalocean *StreamCloudImage `json:"digitalocean,omitempty"`
 	Packet       *StreamCloudImage `json:"packet,omitempty"`
 }
@@ -60,6 +60,13 @@ type StreamAwsImage struct {
 type StreamAwsAMI struct {
 	Release string `json:"release"`
 	Image   string `json:"image"`
+}
+
+// StreamGcpImage GCP cloud image information
+type StreamGcpImage struct {
+	Project string `json:"project,omitempty"`
+	Family  string `json:"family,omitempty"`
+	Name    string `json:"name,omitempty"`
 }
 
 // StreamUpdates contains release version

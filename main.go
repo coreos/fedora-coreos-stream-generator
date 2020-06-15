@@ -87,8 +87,11 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 		artifacts.Gcp = &gcp
 
 		if releaseArch.Media.Gcp != nil && releaseArch.Media.Gcp.Image != nil {
-			gcpImage := StreamCloudImage{}
-			gcpImage.Image = fmt.Sprintf("projects/fedora-coreos-cloud/global/images/family/fedora-coreos-%s", release.Stream)
+			gcpImage := StreamGcpImage{
+				Name:    releaseArch.Media.Gcp.Image.Name,
+				Family:  releaseArch.Media.Gcp.Image.Family,
+				Project: releaseArch.Media.Gcp.Image.Project,
+			}
 			cloudImages.Gcp = &gcpImage
 
 		}

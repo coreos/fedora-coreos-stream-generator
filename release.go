@@ -56,7 +56,14 @@ type ReleaseAzureImages struct {
 // ReleaseGcp GCP image detail
 type ReleaseGcp struct {
 	Artifacts map[string]*ImageFormat `json:"artifacts"`
-	Image     *string                 `json:"image"`
+	Image     *ReleaseCloudImageGcp   `json:"image"`
+}
+
+// ReleaseCloudImageGcp GCP cloud image information
+type ReleaseCloudImageGcp struct {
+	Project string `json:"project,omitempty"`
+	Family  string `json:"family,omitempty"`
+	Name    string `json:"name,omitempty"`
 }
 
 // ReleaseCloudImage cloud image information
