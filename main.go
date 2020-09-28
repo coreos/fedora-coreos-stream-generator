@@ -111,6 +111,14 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 		*/
 	}
 
+	if releaseArch.Media.Ibmcloud != nil {
+		ibmcloud := StreamMediaDetails{
+			Release: release.Release,
+			Formats: releaseArch.Media.Ibmcloud.Artifacts,
+		}
+		artifacts.Ibmcloud = &ibmcloud
+	}
+
 	if releaseArch.Media.Packet != nil {
 		packet := StreamMediaDetails{
 			Release: release.Release,
