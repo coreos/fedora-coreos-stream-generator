@@ -22,6 +22,7 @@ type StreamArtifacts struct {
 	Digitalocean *StreamMediaDetails `json:"digitalocean,omitempty"`
 	Exoscale     *StreamMediaDetails `json:"exoscale,omitempty"`
 	Gcp          *StreamMediaDetails `json:"gcp,omitempty"`
+	Ibmcloud     *StreamMediaDetails `json:"ibmcloud,omitempty"`
 	Metal        *StreamMediaDetails `json:"metal,omitempty"`
 	Openstack    *StreamMediaDetails `json:"openstack,omitempty"`
 	Packet       *StreamMediaDetails `json:"packet,omitempty"`
