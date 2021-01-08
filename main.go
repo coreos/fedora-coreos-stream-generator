@@ -10,13 +10,16 @@ import (
 	"net/url"
 	"os"
 	"time"
+
+	"github.com/coreos/stream-metadata-go/release"
+	"github.com/coreos/stream-metadata-go/stream"
 )
 
 var errReleaseIndexMissing = errors.New("Please specify release index url or release override")
 
 // getReleaseURL gets path for latest release.json available
 func getReleaseURL(releaseIndexURL string) (string, error) {
-	var relIndex ReleaseIndex
+	var relIndex release.Index
 	parsedURL, err := url.Parse(releaseIndexURL)
 	if err != nil {
 		return "", err
@@ -49,41 +52,59 @@ func getReleaseURL(releaseIndexURL string) (string, error) {
 		return "", fmt.Errorf("No release available to process")
 	}
 
-	return relIndex.Releases[len(relIndex.Releases)-1].Metadata, nil
+	return relIndex.Releases[len(relIndex.Releases)-1].MetadataURL, nil
 }
 
-func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
-	artifacts := StreamArtifacts{}
-	cloudImages := StreamImages{}
-	if releaseArch.Media.Aws != nil {
-		aws := StreamMediaDetails{
-			Release: rel.Release,
-			Formats: releaseArch.Media.Aws.Artifacts,
-		}
-		artifacts.Aws = &aws
-		awsAmis := StreamAwsImage{
-			Regions: make(map[string]*StreamAwsAMI),
-		}
+func mapArtifact(ra *release.Artifact) *stream.Artifact {
+	if ra == nil {
+		return nil
+	}
+	return &stream.Artifact{
+		Location:  ra.Location,
+		Signature: ra.Signature,
+		Sha256:    ra.Sha256,
+	}
+}
 
-		if releaseArch.Media.Aws != nil && releaseArch.Media.Aws.Images != nil {
-			for region, ami := range *releaseArch.Media.Aws.Images {
-				streamAwsAMI := StreamAwsAMI{}
-				streamAwsAMI.Release = rel.Release
-				streamAwsAMI.Image = *ami.Image
-				awsAmis.Regions[region] = &streamAwsAMI
+func mapFormats(m map[string]release.ImageFormat) map[string]stream.ImageFormat {
+	r := make(map[string]stream.ImageFormat)
+	for k, v := range m {
+		r[k] = stream.ImageFormat{
+			Disk:      mapArtifact(v.Disk),
+			Kernel:    mapArtifact(v.Kernel),
+			Initramfs: mapArtifact(v.Initramfs),
+			Rootfs:    mapArtifact(v.Rootfs),
+		}
+	}
+	return r
+}
+
+func releaseToStream(releaseArch *release.Arch, rel release.Release) stream.Arch {
+	artifacts := make(map[string]stream.PlatformArtifacts)
+	cloudImages := stream.Images{}
+	if releaseArch.Media.Aws != nil {
+		artifacts["aws"] = stream.PlatformArtifacts{
+			Release: rel.Release,
+			Formats: mapFormats(releaseArch.Media.Aws.Artifacts),
+		}
+		awsAmis := stream.AwsImage{
+			Regions: make(map[string]stream.AwsRegionImage),
+		}
+		if releaseArch.Media.Aws.Images != nil {
+			for region, ami := range releaseArch.Media.Aws.Images {
+				ri := stream.AwsRegionImage{Release: rel.Release, Image: ami.Image}
+				awsAmis.Regions[region] = ri
 
 			}
-
 			cloudImages.Aws = &awsAmis
 		}
 	}
 
 	if releaseArch.Media.Azure != nil {
-		azure := StreamMediaDetails{
+		artifacts["azure"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Azure.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Azure.Artifacts),
 		}
-		artifacts.Azure = &azure
 
 		// Not enabled right now
 		// if az := releaseArch.Media.Azure.Images; az != nil && az.Global != nil && az.Global.Image != nil {
@@ -94,67 +115,59 @@ func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 	}
 
 	if releaseArch.Media.Aliyun != nil {
-		aliyun := StreamMediaDetails{
+		artifacts["aliyun"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Aliyun.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Aliyun.Artifacts),
 		}
-		artifacts.Aliyun = &aliyun
 	}
 
 	if releaseArch.Media.Exoscale != nil {
-		exoscale := StreamMediaDetails{
+		artifacts["exoscale"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Exoscale.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Exoscale.Artifacts),
 		}
-		artifacts.Exoscale = &exoscale
 	}
 
 	if releaseArch.Media.Vultr != nil {
-		vultr := StreamMediaDetails{
+		artifacts["vultr"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Vultr.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Vultr.Artifacts),
 		}
-		artifacts.Vultr = &vultr
 	}
 
 	if releaseArch.Media.Gcp != nil {
-		gcp := StreamMediaDetails{
+		artifacts["gcp"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Gcp.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Gcp.Artifacts),
 		}
-		artifacts.Gcp = &gcp
 
-		if releaseArch.Media.Gcp != nil && releaseArch.Media.Gcp.Image != nil {
-			gcpImage := StreamGcpImage{
+		if releaseArch.Media.Gcp.Image != nil {
+			cloudImages.Gcp = &stream.GcpImage{
 				Name:    releaseArch.Media.Gcp.Image.Name,
 				Family:  releaseArch.Media.Gcp.Image.Family,
 				Project: releaseArch.Media.Gcp.Image.Project,
 			}
-			cloudImages.Gcp = &gcpImage
-
 		}
 	}
 
 	if releaseArch.Media.Digitalocean != nil {
-		digitalOcean := StreamMediaDetails{
+		artifacts["digitalocean"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Digitalocean.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Digitalocean.Artifacts),
 		}
-		artifacts.Digitalocean = &digitalOcean
 
 		/* We're producing artifacts but they're not yet available
 		   in DigitalOcean as distribution images.
-		digitalOceanImage := StreamCloudImage{Image: fmt.Sprintf("fedora-coreos-%s", release.Stream)}
+		digitalOceanImage := stream.CloudImage{Image: fmt.Sprintf("fedora-coreos-%s", release.Stream)}
 		cloudImages.Digitalocean = &digitalOceanImage
 		*/
 	}
 
 	if releaseArch.Media.Ibmcloud != nil {
-		ibmcloud := StreamMediaDetails{
+		artifacts["ibmcloud"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Ibmcloud.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Ibmcloud.Artifacts),
 		}
-		artifacts.Ibmcloud = &ibmcloud
 	}
 
 	// if releaseArch.Media.Packet != nil {
@@ -169,19 +182,17 @@ func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 	// }
 
 	if releaseArch.Media.Openstack != nil {
-		openstack := StreamMediaDetails{
+		artifacts["openstack"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Openstack.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Openstack.Artifacts),
 		}
-		artifacts.Openstack = &openstack
 	}
 
 	if releaseArch.Media.Qemu != nil {
-		qemu := StreamMediaDetails{
+		artifacts["qemu"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Qemu.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Qemu.Artifacts),
 		}
-		artifacts.Qemu = &qemu
 	}
 
 	// if releaseArch.Media.Virtualbox != nil {
@@ -193,30 +204,23 @@ func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 	// }
 
 	if releaseArch.Media.Vmware != nil {
-		vmware := StreamMediaDetails{
+		artifacts["vmware"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Vmware.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Vmware.Artifacts),
 		}
-		artifacts.Vmware = &vmware
 	}
 
 	if releaseArch.Media.Metal != nil {
-		metal := StreamMediaDetails{
+		artifacts["metal"] = stream.PlatformArtifacts{
 			Release: rel.Release,
-			Formats: releaseArch.Media.Metal.Artifacts,
+			Formats: mapFormats(releaseArch.Media.Metal.Artifacts),
 		}
-		artifacts.Metal = &metal
 	}
 
-	streamArch := StreamArch{
+	return stream.Arch{
 		Artifacts: artifacts,
+		Images:    cloudImages,
 	}
-
-	if cloudImages != (StreamImages{}) {
-		streamArch.Images = &cloudImages
-	}
-
-	return streamArch
 }
 
 func overrideData(original, override interface{}) interface{} {
@@ -296,20 +300,19 @@ func run() error {
 		decoder = json.NewDecoder(resp.Body)
 	}
 
-	var rel Release
+	var rel release.Release
 	if err = decoder.Decode(&rel); err != nil {
 		return fmt.Errorf("Error while decoding json: %v", err)
 	}
 
-	streamArch := make(map[string]*StreamArch)
+	streamArch := make(map[string]stream.Arch)
 	for arch, releaseArch := range rel.Architectures {
-		archContent := releaseToStream(releaseArch, rel)
-		streamArch[arch] = &archContent
+		streamArch[arch] = releaseToStream(&releaseArch, rel)
 	}
 
-	streamMetadata := StreamMetadata{
+	streamMetadata := stream.Stream{
 		Stream:        rel.Stream,
-		Metadata:      Metadata{LastModified: time.Now().UTC().Format(time.RFC3339)},
+		Metadata:      stream.Metadata{LastModified: time.Now().UTC().Format(time.RFC3339)},
 		Architectures: streamArch,
 	}
 
