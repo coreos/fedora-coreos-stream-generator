@@ -14,12 +14,12 @@ import (
 
 var errReleaseIndexMissing = errors.New("Please specify release index url or release override")
 
-func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
+func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 	artifacts := StreamArtifacts{}
 	cloudImages := StreamImages{}
 	if releaseArch.Media.Aws != nil {
 		aws := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Aws.Artifacts,
 		}
 		artifacts.Aws = &aws
@@ -30,7 +30,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 		if releaseArch.Media.Aws != nil && releaseArch.Media.Aws.Images != nil {
 			for region, ami := range *releaseArch.Media.Aws.Images {
 				streamAwsAMI := StreamAwsAMI{}
-				streamAwsAMI.Release = release.Release
+				streamAwsAMI.Release = rel.Release
 				streamAwsAMI.Image = *ami.Image
 				awsAmis.Regions[region] = &streamAwsAMI
 
@@ -42,14 +42,14 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Azure != nil {
 		azure := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Azure.Artifacts,
 		}
 		artifacts.Azure = &azure
 
 		if az := releaseArch.Media.Azure.Images; az != nil && az.Global != nil && az.Global.Image != nil {
 			azureImage := StreamCloudImage{}
-			azureImage.Image = fmt.Sprintf("Fedora:CoreOS:%s:latest", release.Stream)
+			azureImage.Image = fmt.Sprintf("Fedora:CoreOS:%s:latest", rel.Stream)
 			cloudImages.Azure = &azureImage
 		}
 
@@ -57,7 +57,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Aliyun != nil {
 		aliyun := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Aliyun.Artifacts,
 		}
 		artifacts.Aliyun = &aliyun
@@ -65,7 +65,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Exoscale != nil {
 		exoscale := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Exoscale.Artifacts,
 		}
 		artifacts.Exoscale = &exoscale
@@ -73,7 +73,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Vultr != nil {
 		vultr := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Vultr.Artifacts,
 		}
 		artifacts.Vultr = &vultr
@@ -81,7 +81,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Gcp != nil {
 		gcp := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Gcp.Artifacts,
 		}
 		artifacts.Gcp = &gcp
@@ -99,7 +99,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Digitalocean != nil {
 		digitalOcean := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Digitalocean.Artifacts,
 		}
 		artifacts.Digitalocean = &digitalOcean
@@ -113,7 +113,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Ibmcloud != nil {
 		ibmcloud := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Ibmcloud.Artifacts,
 		}
 		artifacts.Ibmcloud = &ibmcloud
@@ -121,18 +121,18 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Packet != nil {
 		packet := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Packet.Artifacts,
 		}
 		artifacts.Packet = &packet
 
-		packetImage := StreamCloudImage{Image: fmt.Sprintf("fedora_coreos_%s", release.Stream)}
+		packetImage := StreamCloudImage{Image: fmt.Sprintf("fedora_coreos_%s", rel.Stream)}
 		cloudImages.Packet = &packetImage
 	}
 
 	if releaseArch.Media.Openstack != nil {
 		openstack := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Openstack.Artifacts,
 		}
 		artifacts.Openstack = &openstack
@@ -140,7 +140,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Qemu != nil {
 		qemu := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Qemu.Artifacts,
 		}
 		artifacts.Qemu = &qemu
@@ -148,7 +148,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Virtualbox != nil {
 		virtualbox := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Virtualbox.Artifacts,
 		}
 		artifacts.Virtualbox = &virtualbox
@@ -156,7 +156,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Vmware != nil {
 		vmware := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Vmware.Artifacts,
 		}
 		artifacts.Vmware = &vmware
@@ -164,7 +164,7 @@ func releaseToStream(releaseArch *ReleaseArch, release Release) StreamArch {
 
 	if releaseArch.Media.Metal != nil {
 		metal := StreamMediaDetails{
-			Release: release.Release,
+			Release: rel.Release,
 			Formats: releaseArch.Media.Metal.Artifacts,
 		}
 		artifacts.Metal = &metal
