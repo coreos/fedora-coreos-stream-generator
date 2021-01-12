@@ -119,16 +119,16 @@ func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 		artifacts.Ibmcloud = &ibmcloud
 	}
 
-	if releaseArch.Media.Packet != nil {
-		packet := StreamMediaDetails{
-			Release: rel.Release,
-			Formats: releaseArch.Media.Packet.Artifacts,
-		}
-		artifacts.Packet = &packet
+	// if releaseArch.Media.Packet != nil {
+	// 	packet := StreamMediaDetails{
+	// 		Release: rel.Release,
+	// 		Formats: releaseArch.Media.Packet.Artifacts,
+	// 	}
+	// 	artifacts.Packet = &packet
 
-		packetImage := StreamCloudImage{Image: fmt.Sprintf("fedora_coreos_%s", rel.Stream)}
-		cloudImages.Packet = &packetImage
-	}
+	// 	packetImage := StreamCloudImage{Image: fmt.Sprintf("fedora_coreos_%s", rel.Stream)}
+	// 	cloudImages.Packet = &packetImage
+	// }
 
 	if releaseArch.Media.Openstack != nil {
 		openstack := StreamMediaDetails{
