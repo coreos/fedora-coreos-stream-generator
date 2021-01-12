@@ -18,7 +18,7 @@ Partial stream override can be given using option -override=</path/to/override.j
 # Development
 Fork and clone the repo locally and run it:
 ```
-$ go build .
+$ make
 $ ./fedora-coreos-stream-generator -releases=<release index location for the stream>
 
 ```
