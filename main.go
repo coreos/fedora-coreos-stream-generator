@@ -47,12 +47,12 @@ func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 		}
 		artifacts.Azure = &azure
 
-		if az := releaseArch.Media.Azure.Images; az != nil && az.Global != nil && az.Global.Image != nil {
-			azureImage := StreamCloudImage{}
-			azureImage.Image = fmt.Sprintf("Fedora:CoreOS:%s:latest", rel.Stream)
-			cloudImages.Azure = &azureImage
-		}
-
+		// Not enabled right now
+		// if az := releaseArch.Media.Azure.Images; az != nil && az.Global != nil && az.Global.Image != nil {
+		// 	azureImage := StreamCloudImage{}
+		// 	azureImage.Image = fmt.Sprintf("Fedora:CoreOS:%s:latest", rel.Stream)
+		// 	cloudImages.Azure = &azureImage
+		// }
 	}
 
 	if releaseArch.Media.Aliyun != nil {
