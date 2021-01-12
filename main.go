@@ -258,22 +258,21 @@ func run() error {
 		decoder = json.NewDecoder(resp.Body)
 	}
 
-	var release Release
-	if err = decoder.Decode(&release); err != nil {
+	var rel Release
+	if err = decoder.Decode(&rel); err != nil {
 		return fmt.Errorf("Error while decoding json: %v", err)
 	}
 
 	streamArch := make(map[string]*StreamArch)
-	for arch, releaseArch := range release.Architectures {
-		archContent := releaseToStream(releaseArch, release)
+	for arch, releaseArch := range rel.Architectures {
+		archContent := releaseToStream(releaseArch, rel)
 		streamArch[arch] = &archContent
 	}
 
 	streamMetadata := StreamMetadata{
-		Stream:        release.Stream,
+		Stream:        rel.Stream,
 		Metadata:      Metadata{LastModified: time.Now().UTC().Format(time.RFC3339)},
 		Architectures: streamArch,
-		// Updates:       StreamUpdates{Release: release.Release},
 	}
 
 	if overrideFilename != "" {
