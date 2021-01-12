@@ -14,6 +14,44 @@ import (
 
 var errReleaseIndexMissing = errors.New("Please specify release index url or release override")
 
+// getReleaseURL gets path for latest release.json available
+func getReleaseURL(releaseIndexURL string) (string, error) {
+	var relIndex ReleaseIndex
+	parsedURL, err := url.Parse(releaseIndexURL)
+	if err != nil {
+		return "", err
+	}
+
+	var decoder *json.Decoder
+	if parsedURL.Scheme == "" {
+		// It is most likely a local file.
+		releases, err := os.Open(releaseIndexURL)
+		if err != nil {
+			return "", err
+		}
+
+		defer releases.Close()
+		decoder = json.NewDecoder(releases)
+	} else {
+		resp, err := http.Get(releaseIndexURL)
+		if err != nil {
+			return "", err
+		}
+
+		defer resp.Body.Close()
+		decoder = json.NewDecoder(resp.Body)
+	}
+
+	if err := decoder.Decode(&relIndex); err != nil {
+		return "", err
+	}
+	if len(relIndex.Releases) < 1 {
+		return "", fmt.Errorf("No release available to process")
+	}
+
+	return relIndex.Releases[len(relIndex.Releases)-1].Metadata, nil
+}
+
 func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 	artifacts := StreamArtifacts{}
 	cloudImages := StreamImages{}
@@ -227,7 +265,7 @@ func run() error {
 		releasePath = overrideReleasePath
 	} else {
 		var err error
-		releasePath, err = ReleaseURL(releasesURL)
+		releasePath, err = getReleaseURL(releasesURL)
 		if err != nil {
 			return fmt.Errorf("Error with Release Index: %v", err)
 		}
