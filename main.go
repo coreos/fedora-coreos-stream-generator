@@ -184,13 +184,13 @@ func releaseToStream(releaseArch *ReleaseArch, rel Release) StreamArch {
 		artifacts.Qemu = &qemu
 	}
 
-	if releaseArch.Media.Virtualbox != nil {
-		virtualbox := StreamMediaDetails{
-			Release: rel.Release,
-			Formats: releaseArch.Media.Virtualbox.Artifacts,
-		}
-		artifacts.Virtualbox = &virtualbox
-	}
+	// if releaseArch.Media.Virtualbox != nil {
+	// 	virtualbox := StreamMediaDetails{
+	// 		Release: rel.Release,
+	// 		Formats: releaseArch.Media.Virtualbox.Artifacts,
+	// 	}
+	// 	artifacts.Virtualbox = &virtualbox
+	// }
 
 	if releaseArch.Media.Vmware != nil {
 		vmware := StreamMediaDetails{
