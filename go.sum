@@ -1,7 +1,5 @@
-github.com/coreos/stream-metadata-go v0.0.0-20210225230131-70edb9eb47b3 h1:0JspqV66RwYqYfvi8lCUoL5zUZMh9uN4hx/J5+NRXIE=
-github.com/coreos/stream-metadata-go v0.0.0-20210225230131-70edb9eb47b3/go.mod h1:RTjQyHgO/G37oJ3qnqYK6Z4TPZ5EsaabOtfMjVXmgko=
-github.com/coreos/stream-metadata-go v0.1.1 h1:97r4UsLPjx6rwavgcoho5sd4N4+Dtgc81h8xCGE3bkY=
-github.com/coreos/stream-metadata-go v0.1.1/go.mod h1:zxVoWUDB0H8+tZRhTs0LeLeR/QdmBsuo7FN1oOBrWTE=
+github.com/coreos/stream-metadata-go v0.1.2 h1:uEU7louwH3/5C7kqjTPJE85alCgvRmxa07GfmCviVNM=
+github.com/coreos/stream-metadata-go v0.1.2/go.mod h1:zxVoWUDB0H8+tZRhTs0LeLeR/QdmBsuo7FN1oOBrWTE=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/google/renameio v1.0.0 h1:xhp2CnJmgQmpJU4RY8chagahUq5mbPPAbiSQstKpVMA=
