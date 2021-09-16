@@ -23,5 +23,7 @@ $ ./fedora-coreos-stream-generator -releases=<release index location for the str
 
 ```
 
+Make sure to run `make update` to keep dependencies up-to-date.
+
 Make changes and send PR!
 
