@@ -15,6 +15,10 @@ import (
 	"github.com/coreos/stream-metadata-go/stream"
 )
 
+// Substituted by Makefile
+var Version = "was not built properly"
+
+var generator = "fedora-coreos-stream-generator " + Version
 var errReleaseIndexMissing = errors.New("Please specify release index url or release override")
 
 // getReleaseURL gets path for latest release.json available
@@ -89,8 +93,15 @@ func run() error {
 	flag.StringVar(&outputFile, "output-file", "", "Save output into a file")
 	var prettyPrint bool
 	flag.BoolVar(&prettyPrint, "pretty-print", false, "Pretty-print output")
+	var version bool
+	flag.BoolVar(&version, "version", false, "Show version")
 
 	flag.Parse()
+
+	if version {
+		fmt.Println(generator)
+		return nil
+	}
 
 	var releasePath string
 	if releasesURL == "" && overrideReleasePath == "" {
