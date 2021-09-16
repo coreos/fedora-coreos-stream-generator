@@ -9,3 +9,7 @@ fedora-coreos-stream-generator: main.go go.mod Makefile
 .PHONY: test
 test:
 	./test.sh
+
+.PHONY: update
+update:
+	go get -u
