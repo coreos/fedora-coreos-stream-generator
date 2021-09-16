@@ -149,8 +149,11 @@ func run() error {
 	}
 
 	streamMetadata := stream.Stream{
-		Stream:        rel.Stream,
-		Metadata:      stream.Metadata{LastModified: time.Now().UTC().Format(time.RFC3339)},
+		Stream: rel.Stream,
+		Metadata: stream.Metadata{
+			LastModified: time.Now().UTC().Format(time.RFC3339),
+			Generator:    generator,
+		},
 		Architectures: rel.ToStreamArchitectures(),
 	}
 
