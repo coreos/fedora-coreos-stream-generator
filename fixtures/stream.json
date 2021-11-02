@@ -265,6 +265,7 @@
           }
         },
         "gcp": {
+          "release": "33.20201214.3.1",
           "project": "fedora-coreos-cloud",
           "family": "fedora-coreos-stable",
           "name": "fedora-coreos-33-20201214-3-1-gcp-x86-64"
