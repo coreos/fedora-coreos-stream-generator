@@ -260,10 +260,280 @@
       ],
       "version": "33.20201214.3.1",
       "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20201214.3.1/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "085622ea1fbe723226fe09ddd7388d3d39e4b43ec6bb828b9a9aaa842a057287"
+        }
+      ],
+      "version": "33.20210104.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210104.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "037428822a8b815605400e75fd0bb699cc27f11b1ee8a08ee64d943119c06ae2"
+        }
+      ],
+      "version": "33.20210104.3.1",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210104.3.1/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "71315946fdd078f2b47638f303326f822d9fa332f6d09df14f5841ba56d8a77d"
+        }
+      ],
+      "version": "33.20210117.3.1",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210117.3.1/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "20de1953c18bd432a8ed4e19b91c64978100dba7d1c4813f91f8cf4d4d2411b4"
+        }
+      ],
+      "version": "33.20210117.3.2",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210117.3.2/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "2b1075ba30bb73a56255b91503407c95a8e35aac99c3d4155a23bb45e87ae69b"
+        }
+      ],
+      "version": "33.20210201.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210201.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "4e69a32ac9dc553b1bf0c98b07c5f82ab52cd0cef2c366d5f6766ec4aa19e70f"
+        }
+      ],
+      "version": "33.20210217.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210217.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "7e0bab11e0b085a010a316acd0ccb9781f2e1fbe04e0355b88aff02feefda7b8"
+        }
+      ],
+      "version": "33.20210301.3.1",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210301.3.1/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "db5401f9952d87d93fed66fc13ce1a837f8150ee55b1585434f33eba6f600df9"
+        }
+      ],
+      "version": "33.20210314.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210314.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "0fc4a4c205dbcdfd6ba68912bfbf2c90911e4a2341b3dda0a254ab6541224b83"
+        }
+      ],
+      "version": "33.20210328.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210328.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "8563aca63f27acdc80c7104486bbc50435dfa47eff28dc7e9209f2496b166076"
+        }
+      ],
+      "version": "33.20210412.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210412.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "49ec34ca76b71283d317025a54fe815422299ced4d035369599539e2665d5818"
+        }
+      ],
+      "version": "33.20210426.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/33.20210426.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "b4b2199ec09b9e4200024b52062b119035a06b3ffc27b4268c5b8c3aa6fcde17"
+        }
+      ],
+      "version": "34.20210427.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210427.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "10bdd7c8536c43bdd114f59a86170338e1354d0bb26dc3cd7c0e09310db27251"
+        }
+      ],
+      "version": "34.20210518.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210518.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "5040eaabed46962a07b1e918ba5afa1502e1f898bf958673519cd83e986c228f"
+        }
+      ],
+      "version": "34.20210529.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210529.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "0bdf0aee2585cafb224be19eec3b77501cb2044f028cf43a78f4de7ebd7c1a47"
+        }
+      ],
+      "version": "34.20210611.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210611.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "252fffde6f56d183a3c51c05a0c602b61011f6cb4de23a58313ba3b0023dc360"
+        }
+      ],
+      "version": "34.20210626.3.1",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210626.3.1/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "3e4687b9f56b98dfec34ac40be883217fcacc2a0c630eca37f26a75dfed19798"
+        }
+      ],
+      "version": "34.20210626.3.2",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210626.3.2/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "cdcf20e76e89d4aacfc7e7af8bfb50bcd9fb459dd1327a64f4d3c16faeeee91f"
+        }
+      ],
+      "version": "34.20210711.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210711.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "8f45ac7421e77b4335a37fe40f3fcf4ce4762ce9fd987130e113e35b79d5d6dd"
+        }
+      ],
+      "version": "34.20210725.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210725.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "6b7e18634c32d15efd59b18c0fdc5c26d2e00dbd3afc16965509ba6f1c42c274"
+        }
+      ],
+      "version": "34.20210808.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210808.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "540eed43f9a9cdbfb11d0b6fdb32ebaeb5e1af04dab7b99ceb240e179f614130"
+        },
+        {
+          "architecture": "aarch64",
+          "checksum": "8b577dfe9c94b388218c561b9deda2707eb49293b6ae6c62365d32712b360f97"
+        }
+      ],
+      "version": "34.20210821.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210821.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "45e0f7e030762d03f5fb4584463cc0b81a320e641ef5e8403a9651231d2a555b"
+        },
+        {
+          "architecture": "aarch64",
+          "checksum": "fa5f1ee38362e4af5a85e708dae24020c82c0406c794f292df1da71a5ae3006d"
+        }
+      ],
+      "version": "34.20210904.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210904.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "6334e11901fba7403600522286d817b520eeb15b66b341b392e0c08ed2576b74"
+        },
+        {
+          "architecture": "aarch64",
+          "checksum": "7b089be9533c4aa9f0f9c2d35d2745e5e2ec025e4d6d84c4fd50a6bbf672588c"
+        }
+      ],
+      "version": "34.20210919.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20210919.3.0/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "a44c3b4d10b94db300d420cba76249b6c6de368fa1f93613796e50d3ee8b3568"
+        },
+        {
+          "architecture": "aarch64",
+          "checksum": "69b738bf898d2efcd89270408b00652c1c4d3a7bc384cf53f76846434a12ab68"
+        }
+      ],
+      "version": "34.20211004.3.1",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20211004.3.1/release.json"
+    },
+    {
+      "commits": [
+        {
+          "architecture": "x86_64",
+          "checksum": "0221bcb28486b877ad943074a9f744b337dd651f7f68187eec6f1b97d27adc12"
+        },
+        {
+          "architecture": "aarch64",
+          "checksum": "68e0b467e1ac6fbed67c33494eeb8c38fe57f3c1fb3b7b0fdac6aa39ddbb6517"
+        }
+      ],
+      "version": "34.20211016.3.0",
+      "metadata": "https://builds.coreos.fedoraproject.org/prod/streams/stable/builds/34.20211016.3.0/release.json"
     }
   ],
   "metadata": {
-    "last-modified": "2021-01-05T10:15:52Z"
+    "last-modified": "2021-11-02T02:46:59Z"
   },
   "stream": "stable"
 }
