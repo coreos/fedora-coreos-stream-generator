@@ -2,4 +2,4 @@ module github.com/coreos/fedora-coreos-stream-generator
 
 go 1.15
 
-require github.com/coreos/stream-metadata-go v0.1.8
+require github.com/coreos/stream-metadata-go v0.2.0
