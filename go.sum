@@ -1,5 +1,5 @@
-github.com/coreos/stream-metadata-go v0.4.6 h1:/Wfqnfs4LeI0KdcAqQmaNgeRD3DcNbV9n5V5erv7wzQ=
-github.com/coreos/stream-metadata-go v0.4.6/go.mod h1:fMObQqQm8Ku91G04btKzEH3AsdP1mrAb986z9aaK0tE=
+github.com/coreos/stream-metadata-go v0.4.8 h1:vu9CiCFYCb/JpLq+LOjeWuxVhVH9tx1qc46fw1g+B48=
+github.com/coreos/stream-metadata-go v0.4.8/go.mod h1:fMObQqQm8Ku91G04btKzEH3AsdP1mrAb986z9aaK0tE=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
