@@ -19,11 +19,12 @@ import (
 var Version = "was not built properly"
 
 var generator = "fedora-coreos-stream-generator " + Version
-var errReleaseIndexMissing = errors.New("Please specify release index url or release override")
+var errReleaseIndexMissing = errors.New("please specify release index url or release override")
 
 // getReleaseURL gets path for latest release.json available
 func getReleaseURL(releaseIndexURL string) (string, error) {
 	var relIndex release.Index
+	var err error
 	parsedURL, err := url.Parse(releaseIndexURL)
 	if err != nil {
 		return "", err
@@ -37,7 +38,9 @@ func getReleaseURL(releaseIndexURL string) (string, error) {
 			return "", err
 		}
 
-		defer releases.Close()
+		defer func() {
+			err = errors.Join(releases.Close())
+		}()
 		decoder = json.NewDecoder(releases)
 	} else {
 		resp, err := http.Get(releaseIndexURL)
@@ -45,18 +48,20 @@ func getReleaseURL(releaseIndexURL string) (string, error) {
 			return "", err
 		}
 
-		defer resp.Body.Close()
+		defer func() {
+			err = errors.Join(resp.Body.Close())
+		}()
 		decoder = json.NewDecoder(resp.Body)
 	}
 
-	if err := decoder.Decode(&relIndex); err != nil {
+	if err = decoder.Decode(&relIndex); err != nil {
 		return "", err
 	}
 	if len(relIndex.Releases) < 1 {
-		return "", fmt.Errorf("No release available to process")
+		return "", fmt.Errorf("no release available to process")
 	}
 
-	return relIndex.Releases[len(relIndex.Releases)-1].MetadataURL, nil
+	return relIndex.Releases[len(relIndex.Releases)-1].MetadataURL, err
 }
 
 func overrideData(original, override interface{}) interface{} {
@@ -98,6 +103,8 @@ func run() error {
 
 	flag.Parse()
 
+	var err error
+
 	if version {
 		fmt.Println(generator)
 		return nil
@@ -107,20 +114,19 @@ func run() error {
 	if releasesURL == "" && overrideReleasePath == "" {
 		return errReleaseIndexMissing
 	} else if releasesURL != "" && overrideReleasePath != "" {
-		return fmt.Errorf("Can't specify both -releases and -release")
+		return fmt.Errorf("can't specify both -releases and -release")
 	} else if overrideReleasePath != "" {
 		releasePath = overrideReleasePath
 	} else {
-		var err error
 		releasePath, err = getReleaseURL(releasesURL)
 		if err != nil {
-			return fmt.Errorf("Error with Release Index: %v", err)
+			return fmt.Errorf("error with Release Index: %v", err)
 		}
 	}
 
 	parsedURL, err := url.Parse(releasePath)
 	if err != nil {
-		return fmt.Errorf("Error while parsing release path: %v", err)
+		return fmt.Errorf("error while parsing release path: %v", err)
 	}
 
 	var decoder *json.Decoder
@@ -128,24 +134,28 @@ func run() error {
 		// It is most likely a local file.
 		releaseMetadataFile, err := os.Open(releasePath)
 		if err != nil {
-			return fmt.Errorf("Error opening file: %v", err)
+			return fmt.Errorf("error opening file: %v", err)
 		}
 
-		defer releaseMetadataFile.Close()
+		defer func() {
+			err = errors.Join(releaseMetadataFile.Close())
+		}()
 		decoder = json.NewDecoder(releaseMetadataFile)
 	} else {
 		resp, err := http.Get(releasePath)
 		if err != nil {
-			return fmt.Errorf("Error while fetching: %v", err)
+			return fmt.Errorf("error while fetching: %v", err)
 		}
 
-		defer resp.Body.Close()
+		defer func() {
+			err = errors.Join(resp.Body.Close())
+		}()
 		decoder = json.NewDecoder(resp.Body)
 	}
 
 	var rel release.Release
 	if err = decoder.Decode(&rel); err != nil {
-		return fmt.Errorf("Error while decoding json: %v", err)
+		return fmt.Errorf("error while decoding json: %v", err)
 	}
 
 	streamMetadata := stream.Stream{
@@ -160,23 +170,25 @@ func run() error {
 	if overrideFilename != "" {
 		overrideFile, err := os.Open(overrideFilename)
 		if err != nil {
-			return fmt.Errorf("Can't open file %s: %v", overrideFilename, err)
+			return fmt.Errorf("can't open file %s: %v", overrideFilename, err)
 		}
-		defer overrideFile.Close()
+		defer func() {
+			err = errors.Join(overrideFile.Close())
+		}()
 
 		streamMetadataJSON, err := json.Marshal(&streamMetadata)
 		if err != nil {
-			return fmt.Errorf("Error during Marshal: %v", err)
+			return fmt.Errorf("error during Marshal: %v", err)
 		}
 		streamMetadataMap := make(map[string]interface{})
 		if err = json.Unmarshal(streamMetadataJSON, &streamMetadataMap); err != nil {
-			return fmt.Errorf("Error during Unmarshal: %v", err)
+			return fmt.Errorf("error during Unmarshal: %v", err)
 		}
 
 		overrideMap := make(map[string]interface{})
 		overrideDecoder := json.NewDecoder(overrideFile)
 		if err = overrideDecoder.Decode(&overrideMap); err != nil {
-			return fmt.Errorf("Error while decoding: %v", err)
+			return fmt.Errorf("error while decoding: %v", err)
 		}
 
 		streamMetadataInterface := overrideData(streamMetadataMap, overrideMap)
@@ -185,10 +197,10 @@ func run() error {
 		// We are doing Marshal and Unmarshal of streamMetadataMap to keep json in ordered way
 		streamMetadataJSON, err = json.Marshal(streamMetadataMap)
 		if err != nil {
-			return fmt.Errorf("Error during Marshal: %v", err)
+			return fmt.Errorf("error during Marshal: %v", err)
 		}
 		if err = json.Unmarshal(streamMetadataJSON, &streamMetadata); err != nil {
-			return fmt.Errorf("Error during Unmarshal: %v", err)
+			return fmt.Errorf("error during Unmarshal: %v", err)
 		}
 	}
 
@@ -197,10 +209,12 @@ func run() error {
 	if outputFile != "" {
 		streamFile, err := os.Create(outputFile)
 		if err != nil {
-			return fmt.Errorf("Can't open file: %v", err)
+			return fmt.Errorf("can't open file: %v", err)
 		}
 
-		defer streamFile.Close()
+		defer func() {
+			err = errors.Join(streamFile.Close())
+		}()
 		out = streamFile
 	} else {
 		out = os.Stdout
@@ -211,10 +225,10 @@ func run() error {
 		encoder.SetIndent("", "    ")
 	}
 	if err := encoder.Encode(&streamMetadata); err != nil {
-		return fmt.Errorf("Error while encoding: %v", err)
+		return fmt.Errorf("error while encoding: %v", err)
 	}
 
-	return nil
+	return err
 }
 
 func main() {
